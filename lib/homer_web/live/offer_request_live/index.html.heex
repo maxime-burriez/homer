@@ -1,0 +1,43 @@
+<h1>Listing Offer requests</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal HomerWeb.OfferRequestLive.FormComponent,
+    id: @offer_request.id || :new,
+    title: @page_title,
+    action: @live_action,
+    offer_request: @offer_request,
+    return_to: Routes.offer_request_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Origin</th>
+      <th>Destination</th>
+      <th>Departure date</th>
+      <th>Sort by</th>
+      <th>Allowed airlines</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="offer_requests">
+    <%= for offer_request <- @offer_requests do %>
+      <tr id={"offer_request-#{offer_request.id}"}>
+        <td><%= offer_request.origin %></td>
+        <td><%= offer_request.destination %></td>
+        <td><%= offer_request.departure_date %></td>
+        <td><%= offer_request.sort_by %></td>
+        <td><%= offer_request.allowed_airlines %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.offer_request_show_path(@socket, :show, offer_request) %></span>
+          <span><%= live_patch "Edit", to: Routes.offer_request_index_path(@socket, :edit, offer_request) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: offer_request.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Offer request", to: Routes.offer_request_index_path(@socket, :new) %></span>
