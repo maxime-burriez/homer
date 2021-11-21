@@ -1,0 +1,42 @@
+<h1>Show Offer request</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal HomerWeb.OfferRequestLive.FormComponent,
+    id: @offer_request.id,
+    title: @page_title,
+    action: @live_action,
+    offer_request: @offer_request,
+    return_to: Routes.offer_request_show_path(@socket, :show, @offer_request) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Origin:</strong>
+    <%= @offer_request.origin %>
+  </li>
+
+  <li>
+    <strong>Destination:</strong>
+    <%= @offer_request.destination %>
+  </li>
+
+  <li>
+    <strong>Departure date:</strong>
+    <%= @offer_request.departure_date %>
+  </li>
+
+  <li>
+    <strong>Sort by:</strong>
+    <%= @offer_request.sort_by %>
+  </li>
+
+  <li>
+    <strong>Allowed airlines:</strong>
+    <%= @offer_request.allowed_airlines %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.offer_request_show_path(@socket, :edit, @offer_request), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.offer_request_index_path(@socket, :index) %></span>
