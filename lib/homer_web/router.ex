@@ -23,7 +23,7 @@ defmodule HomerWeb.Router do
     live "/offer_requests/new", OfferRequestLive.Index, :new
 
     live "/offer_requests/:id", OfferRequestLive.Show, :show
-    live "/offer_requests/:id/show/edit", OfferRequestLive.Show, :edit
+    live "/offer_requests/:id/edit", OfferRequestLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

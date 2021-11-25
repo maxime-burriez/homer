@@ -28,11 +28,11 @@
         <td><%= offer_request.destination %></td>
         <td><%= offer_request.departure_date %></td>
         <td><%= offer_request.sort_by %></td>
-        <td><%= offer_request.allowed_airlines %></td>
+        <td><%= allowed_airlines_msg(offer_request.allowed_airlines) %></td>
 
         <td>
           <span><%= live_redirect "Show", to: Routes.offer_request_show_path(@socket, :show, offer_request) %></span>
-          <span><%= live_patch "Edit", to: Routes.offer_request_index_path(@socket, :edit, offer_request) %></span>
+          <span><%= live_patch "Edit", to: Routes.offer_request_show_path(@socket, :edit, offer_request) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: offer_request.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>

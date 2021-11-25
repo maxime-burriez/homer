@@ -20,4 +20,18 @@ defmodule HomerWeb.LiveHelpers do
     modal_opts = [id: :modal, return_to: path, component: component, opts: opts]
     live_component(HomerWeb.ModalComponent, modal_opts)
   end
+
+  @doc """
+  Renders allowed airlines as a message.
+
+  ## Examples
+
+      <%= allowed_airlines_msg(@offer_request.allowed_airlines) %>
+  """
+  def allowed_airlines_msg(nil), do: "All airlines are allowed"
+
+  def allowed_airlines_msg([_ | _] = allowed_airlines),
+    do: "[" <> Enum.join(allowed_airlines, ", ") <> "]"
+
+  def allowed_airlines_msg(_), do: "No allowed airlines"
 end

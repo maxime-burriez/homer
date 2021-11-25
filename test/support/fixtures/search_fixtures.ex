@@ -11,11 +11,9 @@ defmodule Homer.SearchFixtures do
     {:ok, offer_request} =
       attrs
       |> Enum.into(%{
-        allowed_airlines: [],
         departure_date: ~D[2021-11-20],
-        destination: "some destination",
-        origin: "some origin",
-        sort_by: "some sort_by"
+        destination: "JFK",
+        origin: "CDG"
       })
       |> Homer.Search.create_offer_request()
 

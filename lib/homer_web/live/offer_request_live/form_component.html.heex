@@ -10,24 +10,34 @@
     phx-submit="save">
   
     <%= label f, :origin %>
-    <%= text_input f, :origin %>
+    <%= text_input f, :origin, placeholder: "IATA airport format. ex: CDG", disabled: @is_editing %>
     <%= error_tag f, :origin %>
   
     <%= label f, :destination %>
-    <%= text_input f, :destination %>
+    <%= text_input f, :destination, placeholder: "IATA airport format. ex: JFK", disabled: @is_editing %>
     <%= error_tag f, :destination %>
   
     <%= label f, :departure_date %>
-    <%= date_select f, :departure_date %>
+    <%= date_input f, :departure_date, disabled: @is_editing %>
     <%= error_tag f, :departure_date %>
-  
-    <%= label f, :sort_by %>
-    <%= text_input f, :sort_by %>
-    <%= error_tag f, :sort_by %>
-  
-    <%= label f, :allowed_airlines %>
-    <%= multiple_select f, :allowed_airlines, ["Option 1": "option1", "Option 2": "option2"] %>
-    <%= error_tag f, :allowed_airlines %>
+
+    <%= if @is_editing do %>
+      <%= label f, :sort_by %>
+      <%= select f, :sort_by, ["Total amount asc": "total_amount_asc", "Total amount desc": "total_amount_desc", "Total duration asc": "total_duration_asc", "Total duration desc": "total_duration_desc"] %>
+      <%= error_tag f, :sort_by %>
+    
+      <%= label f, :all_airlines, "All airlines are allowed" %>
+      <%= checkbox f, :all_airlines, checked: @all_airlines_selected %>
+
+      <%= if !@all_airlines_selected do %>
+        <%= label f, :allowed_airlines %>
+        <%= multiple_select f, :allowed_airlines, ["Air France": "AF", "American Airlines": "AA", "British Airways": "BA"] %>
+        <%= error_tag f, :allowed_airlines %>
+        <i>
+          L'utilisateur peut choisir plusieurs compagnies aériennes dans le sélecteur en maintenant la touche Maj ou Ctrl.
+        </i>
+      <% end %>
+    <% end %>
   
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>

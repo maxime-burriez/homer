@@ -5,14 +5,12 @@ defmodule HomerWeb.OfferRequestLive.Index do
   alias Homer.Search.OfferRequest
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :offer_requests, list_offer_requests())}
-  end
+  def mount(_params, _session, socket),
+    do: {:ok, assign(socket, :offer_requests, list_offer_requests())}
 
   @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-  end
+  def handle_params(params, _url, socket),
+    do: {:noreply, apply_action(socket, socket.assigns.live_action, params)}
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
@@ -40,7 +38,5 @@ defmodule HomerWeb.OfferRequestLive.Index do
     {:noreply, assign(socket, :offer_requests, list_offer_requests())}
   end
 
-  defp list_offer_requests do
-    Search.list_offer_requests()
-  end
+  defp list_offer_requests, do: Search.list_offer_requests()
 end
