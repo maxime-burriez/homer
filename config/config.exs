@@ -17,6 +17,18 @@ config :homer, HomerWeb.Endpoint,
   pubsub_server: Homer.PubSub,
   live_view: [signing_salt: "kJto4x4M"]
 
+# Tesla : configures default adapter
+config :tesla, adapter: Tesla.Adapter.Hackney
+
+# Duffel plug-in
+config :homer, duffel_module: Homer.Search.Duffel.Core
+
+# Duffel API
+config :homer, Homer.Search.Duffel.Core,
+  duffel_api_host: System.get_env("DUFFEL_API_HOST"),
+  duffel_version: System.get_env("DUFFEL_VERSION"),
+  duffel_token: System.get_env("DUFFEL_TOKEN")
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

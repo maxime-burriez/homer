@@ -20,6 +20,9 @@ config :homer, HomerWeb.Endpoint,
   secret_key_base: "scKgQhrcV35qh2wnKrnqptOUFKL0Lkkr/SnJU7kyvh59yLuv79U0UbUj17jOJz50",
   server: false
 
+# Duffel plug-in
+config :homer, duffel_module: Homer.Search.DuffelMock
+
 # In test we don't send emails.
 config :homer, Homer.Mailer, adapter: Swoosh.Adapters.Test
 
