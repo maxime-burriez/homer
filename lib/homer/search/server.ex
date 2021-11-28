@@ -13,7 +13,7 @@ defmodule Homer.Search.Server do
 
   @impl true
   def start_link({_offer_request, _providers} = init_arg),
-    do: GenServer.start_link(__MODULE__, init_arg)
+    do: GenServer.start_link(__MODULE__, init_arg, [{:name, :search_server}])
 
   @impl true
   def list_offers(pid, limit), do: GenServer.call(pid, {:list_offers, limit}, 120_000)

@@ -6,7 +6,13 @@ defmodule Homer.Search do
   import Ecto.Query, warn: false
   alias Homer.Repo
 
-  alias Homer.Search.OfferRequest
+  alias Homer.Search.{
+    Duffel,
+    OfferRequest,
+    Server
+  }
+
+  @behaviour Homer.Search.Behaviour
 
   @doc """
   Returns the list of offer_requests.
@@ -100,5 +106,34 @@ defmodule Homer.Search do
   """
   def change_offer_request(%OfferRequest{} = offer_request, attrs \\ %{}) do
     OfferRequest.changeset(offer_request, attrs)
+  end
+
+  @doc """
+  Returns the list of offers for the given offer_requests.
+
+  ## Examples
+
+      iex> get_offers(offer_request, limit)
+      {:ok, [%Offer{}, ...]}
+
+      iex> get_offers(offer_request, limit)
+      {:error, error}
+
+  """
+  def get_offers(%OfferRequest{} = offer_request, limit) do
+    case Server.start_link({offer_request, [Duffel]}) do
+      {:ok, pid} ->
+        Server.list_offers(pid, limit)
+
+      {:error, {:already_started, pid}} ->
+        Server.offer_request_updated(pid, offer_request)
+        Server.list_offers(pid, limit)
+
+      {:error, _} = error ->
+        error
+
+      :ignore ->
+        {:error, :ignore}
+    end
   end
 end
