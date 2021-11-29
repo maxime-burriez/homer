@@ -7,12 +7,13 @@ defmodule Homer.Search do
   alias Homer.Repo
 
   alias Homer.Search.{
-    Duffel,
     OfferRequest,
     Server
   }
 
   @behaviour Homer.Search.Behaviour
+
+  @search_engine_provider_modules Application.get_env(:homer, :search_engine_provider_modules)
 
   @doc """
   Returns the list of offer_requests.
@@ -121,7 +122,7 @@ defmodule Homer.Search do
 
   """
   def get_offers(%OfferRequest{} = offer_request, limit) do
-    case Server.start_link({offer_request, [Duffel]}) do
+    case Server.start_link({offer_request, @search_engine_provider_modules}) do
       {:ok, pid} ->
         Server.list_offers(pid, limit)
 

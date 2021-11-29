@@ -29,6 +29,9 @@ config :homer, Homer.Search.Duffel.Core,
   duffel_version: System.get_env("DUFFEL_VERSION"),
   duffel_token: System.get_env("DUFFEL_TOKEN")
 
+# Search engine provider modules
+config :homer, search_engine_provider_modules: [Duffel]
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
