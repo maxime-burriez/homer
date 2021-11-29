@@ -51,7 +51,7 @@ defmodule Homer.Search do
   """
   def create_offer_request(attrs \\ %{}) do
     %OfferRequest{}
-    |> OfferRequest.changeset(attrs)
+    |> OfferRequest.create_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -69,7 +69,7 @@ defmodule Homer.Search do
   """
   def update_offer_request(%OfferRequest{} = offer_request, attrs) do
     offer_request
-    |> OfferRequest.changeset(attrs)
+    |> OfferRequest.update_changeset(attrs)
     |> Repo.update()
   end
 

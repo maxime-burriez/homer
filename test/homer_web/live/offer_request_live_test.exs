@@ -5,25 +5,19 @@ defmodule HomerWeb.OfferRequestLiveTest do
   import Homer.SearchFixtures
 
   @create_attrs %{
-    allowed_airlines: [],
-    departure_date: %{day: 20, month: 11, year: 2021},
-    destination: "some destination",
-    origin: "some origin",
-    sort_by: "some sort_by"
+    departure_date: ~D[2021-11-20],
+    destination: "JFK",
+    origin: "CDG"
   }
+
   @update_attrs %{
-    allowed_airlines: [],
-    departure_date: %{day: 21, month: 11, year: 2021},
-    destination: "some updated destination",
-    origin: "some updated origin",
-    sort_by: "some updated sort_by"
+    sort_by: :total_duration_asc
   }
-  @invalid_attrs %{
-    allowed_airlines: [],
-    departure_date: %{day: 30, month: 2, year: 2021},
+
+  @invalid_create_attrs %{
+    departure_date: nil,
     destination: nil,
-    origin: nil,
-    sort_by: nil
+    origin: nil
   }
 
   defp create_offer_request(_) do
@@ -50,8 +44,8 @@ defmodule HomerWeb.OfferRequestLiveTest do
       assert_patch(index_live, Routes.offer_request_index_path(conn, :new))
 
       assert index_live
-             |> form("#offer_request-form", offer_request: @invalid_attrs)
-             |> render_change() =~ "is invalid"
+             |> form("#offer_request-form", offer_request: @invalid_create_attrs)
+             |> render_change() =~ "can&#39;t be blank"
 
       {:ok, _, html} =
         index_live
@@ -60,31 +54,7 @@ defmodule HomerWeb.OfferRequestLiveTest do
         |> follow_redirect(conn, Routes.offer_request_index_path(conn, :index))
 
       assert html =~ "Offer request created successfully"
-      assert html =~ "some destination"
-    end
-
-    test "updates offer_request in listing", %{conn: conn, offer_request: offer_request} do
-      {:ok, index_live, _html} = live(conn, Routes.offer_request_index_path(conn, :index))
-
-      assert index_live
-             |> element("#offer_request-#{offer_request.id} a", "Edit")
-             |> render_click() =~
-               "Edit Offer request"
-
-      assert_patch(index_live, Routes.offer_request_index_path(conn, :edit, offer_request))
-
-      assert index_live
-             |> form("#offer_request-form", offer_request: @invalid_attrs)
-             |> render_change() =~ "is invalid"
-
-      {:ok, _, html} =
-        index_live
-        |> form("#offer_request-form", offer_request: @update_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.offer_request_index_path(conn, :index))
-
-      assert html =~ "Offer request updated successfully"
-      assert html =~ "some updated destination"
+      assert html =~ @create_attrs.destination
     end
 
     test "deletes offer_request in listing", %{conn: conn, offer_request: offer_request} do
@@ -113,14 +83,9 @@ defmodule HomerWeb.OfferRequestLiveTest do
       {:ok, show_live, _html} =
         live(conn, Routes.offer_request_show_path(conn, :show, offer_request))
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Offer request"
+      assert show_live |> element("a", "Edit") |> render_click() =~ "Edit Offer request"
 
       assert_patch(show_live, Routes.offer_request_show_path(conn, :edit, offer_request))
-
-      assert show_live
-             |> form("#offer_request-form", offer_request: @invalid_attrs)
-             |> render_change() =~ "is invalid"
 
       {:ok, _, html} =
         show_live
@@ -129,7 +94,7 @@ defmodule HomerWeb.OfferRequestLiveTest do
         |> follow_redirect(conn, Routes.offer_request_show_path(conn, :show, offer_request))
 
       assert html =~ "Offer request updated successfully"
-      assert html =~ "some updated destination"
+      assert html =~ offer_request.destination
     end
   end
 end
