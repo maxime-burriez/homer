@@ -1,4 +1,8 @@
 defmodule HomerWeb.Telemetry do
+  @moduledoc """
+  HomerWeb.Telemetry
+  """
+
   use Supervisor
   import Telemetry.Metrics
 

@@ -78,10 +78,8 @@ defmodule Homer.Search.Duffel.Core do
   defp total_duration(segments) when is_list(segments),
     do:
       Enum.reduce(segments, 0, fn segment, total_acc ->
-        with {:ok, duration} <-
-               Timex.Parse.Duration.Parsers.ISO8601Parser.parse(segment["duration"]) do
-          total_acc + Timex.Duration.to_minutes(duration, truncate: true)
-        else
+        case Timex.Parse.Duration.Parsers.ISO8601Parser.parse(segment["duration"]) do
+          {:ok, duration} -> total_acc + Timex.Duration.to_minutes(duration, truncate: true)
           _ -> total_acc
         end
       end)

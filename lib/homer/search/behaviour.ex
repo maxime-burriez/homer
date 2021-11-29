@@ -1,4 +1,8 @@
 defmodule Homer.Search.Behaviour do
+  @moduledoc """
+  Homer.Search.Behaviour
+  """
+
   @callback list_offer_requests() :: [OfferRequest.t()]
 
   @callback get_offer_request!(id :: integer()) :: OfferRequest.t()

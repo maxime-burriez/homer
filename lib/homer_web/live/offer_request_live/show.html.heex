@@ -40,3 +40,34 @@
 
 <span><%= live_patch "Edit", to: Routes.offer_request_show_path(@socket, :edit, @offer_request), class: "button" %></span> |
 <span><%= live_redirect "Back", to: Routes.offer_request_index_path(@socket, :index) %></span>
+
+<h2>Offers list :</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Origin</th>
+      <th>Destination</th>
+      <th>Segments count</th>
+      <th>Total amount</th>
+      <th>Total duration</th>
+      <th>Departing at</th>
+      <th>Arriving at</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="offers">
+    <%= for offer <- @offers do %>
+      <tr>
+        <td><%= offer.origin %></td>
+        <td><%= offer.destination %></td>
+        <td><%= offer.segments_count %></td>
+        <td><%= offer.total_amount %></td>
+        <td><%= offer.total_duration %></td>
+        <td><%= offer.departing_at %></td>
+        <td><%= offer.arriving_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
