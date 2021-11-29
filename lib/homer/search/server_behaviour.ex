@@ -1,4 +1,8 @@
 defmodule Homer.Search.ServerBehaviour do
+  @moduledoc """
+  Homer.Search.ServerBehaviour
+  """
+
   @callback start_link({OfferRequest.t(), providers :: [module()]}) ::
               {:ok, pid()} | {:error, any()}
 

@@ -1,4 +1,8 @@
 defmodule HomerWeb.OfferRequestLive.Show do
+  @moduledoc """
+  HomerWeb.OfferRequestLive.Show
+  """
+
   use HomerWeb, :live_view
 
   alias Homer.Search

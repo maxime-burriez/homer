@@ -13,8 +13,6 @@ defmodule Homer.Search do
 
   @behaviour Homer.Search.Behaviour
 
-  @search_engine_provider_modules Application.get_env(:homer, :search_engine_provider_modules)
-
   @doc """
   Returns the list of offer_requests.
 
@@ -122,7 +120,7 @@ defmodule Homer.Search do
 
   """
   def get_offers(%OfferRequest{} = offer_request, limit) do
-    case Server.start_link({offer_request, @search_engine_provider_modules}) do
+    case Server.start_link({offer_request, search_engine_provider_modules()}) do
       {:ok, pid} ->
         Server.list_offers(pid, limit)
 
@@ -137,4 +135,7 @@ defmodule Homer.Search do
         {:error, :ignore}
     end
   end
+
+  defp search_engine_provider_modules,
+    do: Application.get_env(:homer, :search_engine_provider_modules)
 end

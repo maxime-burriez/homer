@@ -1,4 +1,8 @@
 defmodule HomerWeb.ModalComponent do
+  @moduledoc """
+  HomerWeb.ModalComponent
+  """
+
   use HomerWeb, :live_component
 
   @impl true

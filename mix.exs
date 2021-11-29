@@ -50,6 +50,9 @@ defmodule Homer.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
 
+      # Static code analysis
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+
       # http client
       {:tesla, "~> 1.4"},
       {:hackney, "~> 1.17"},

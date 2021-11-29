@@ -1,4 +1,8 @@
 defmodule HomerWeb.OfferRequestLive.FormComponent do
+  @moduledoc """
+  HomerWeb.OfferRequestLive.FormComponent
+  """
+
   use HomerWeb, :live_component
 
   alias Homer.Search
