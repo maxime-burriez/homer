@@ -5,7 +5,7 @@ defmodule Homer.Search.Duffel do
 
   @behaviour Homer.Search.ProviderBehaviour
 
-  @module Application.get_env(:homer, :duffel_module)
+  def fetch_offers(offer_request), do: duffel_module().fetch_offers(offer_request)
 
-  defdelegate fetch_offers(offer_request), to: @module
+  defp duffel_module, do: Application.get_env(:homer, :duffel_module)
 end

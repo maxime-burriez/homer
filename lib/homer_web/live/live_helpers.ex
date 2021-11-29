@@ -1,4 +1,8 @@
 defmodule HomerWeb.LiveHelpers do
+  @moduledoc """
+  HomerWeb.LiveHelpers
+  """
+
   import Phoenix.LiveView.Helpers
 
   @doc """

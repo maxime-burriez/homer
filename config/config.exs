@@ -30,7 +30,7 @@ config :homer, Homer.Search.Duffel.Core,
   duffel_token: System.get_env("DUFFEL_TOKEN")
 
 # Search engine provider modules
-config :homer, search_engine_provider_modules: [Duffel]
+config :homer, search_engine_provider_modules: [Homer.Search.Duffel]
 
 # Configures the mailer
 #

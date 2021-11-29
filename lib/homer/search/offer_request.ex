@@ -1,4 +1,8 @@
 defmodule Homer.Search.OfferRequest do
+  @moduledoc """
+  Homer.Search.OfferRequest
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 
