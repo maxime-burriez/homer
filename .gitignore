@@ -32,3 +32,5 @@ homer-*.tar
 npm-debug.log
 /assets/node_modules/
 
+.env
+.vscode/
