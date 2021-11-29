@@ -22,15 +22,15 @@ defmodule Homer.Search.Duffel.Core do
   def config, do: Application.get_env(:homer, __MODULE__)
 
   def fetch_offers(offer_request) do
-    request_body = build_request_body(offer_request)
+    body_request = build_http_body_request(offer_request)
 
-    case post("/offer_requests", request_body, opts: [adapter: [recv_timeout: 120_000]]) do
+    case post("/offer_requests", body_request, opts: [adapter: [recv_timeout: 120_000]]) do
       {:ok, %{status: _status, body: body}} -> {:ok, extract_offers(body)}
       error -> error
     end
   end
 
-  defp build_request_body(offer_request) do
+  defp build_http_body_request(offer_request) do
     # /!\ In order to simplify this exercise, let's say that we can only search for one-way tickets for an adult.
 
     Jason.encode!(%{
