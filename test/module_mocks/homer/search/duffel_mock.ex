@@ -4,5 +4,5 @@ defmodule Homer.Search.DuffelMock do
   """
 
   # TO IMPLEMENT IF TEST NEED IT
-  def fetch_offers(_offer_request), do: []
+  def fetch_offers(_offer_request), do: {:ok, []}
 end
