@@ -120,7 +120,10 @@ defmodule Homer.Search do
 
   """
   def get_offers(%OfferRequest{} = offer_request, limit) do
-    case Server.start_link({offer_request, search_engine_provider_modules()}) do
+    case DynamicSupervisor.start_child(
+      Homer.Search.Supervisor.Searches,
+      {Server, offer_request}
+    ) do
       {:ok, pid} ->
         Server.list_offers(pid, limit)
 
@@ -135,7 +138,4 @@ defmodule Homer.Search do
         {:error, :ignore}
     end
   end
-
-  defp search_engine_provider_modules,
-    do: Application.get_env(:homer, :search_engine_provider_modules)
 end
