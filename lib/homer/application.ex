@@ -8,6 +8,8 @@ defmodule Homer.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      {Registry, keys: :unique, name: Homer.Search.Registry},
+      {DynamicSupervisor, [name: Homer.Search.Supervisor.Searches, strategy: :one_for_one]},
       # Start the Ecto repository
       Homer.Repo,
       # Start the Telemetry supervisor
