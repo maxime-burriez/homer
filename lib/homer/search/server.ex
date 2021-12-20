@@ -11,9 +11,17 @@ defmodule Homer.Search.Server do
 
   @idle_timeout_ms 15 * 60 * 1000
 
+  def child_spec(%{id: id} = offer_request) do
+    %{
+      id: {__MODULE__, id},
+      start: {__MODULE__, :start_link, [{offer_request, search_engine_provider_modules()}]},
+      restart: :transient
+    }
+  end
+
   @impl true
-  def start_link({_offer_request, _providers} = init_arg),
-    do: GenServer.start_link(__MODULE__, init_arg, [{:name, :search_server}])
+  def start_link({offer_request, _providers} = init_arg),
+    do: GenServer.start_link(__MODULE__, init_arg, [{:name, process_name(offer_request)}])
 
   @impl true
   def list_offers(pid, limit), do: GenServer.call(pid, {:list_offers, limit}, 120_000)
@@ -57,6 +65,9 @@ defmodule Homer.Search.Server do
   @impl true
   def handle_info({:idle_timeout, _ref}, state), do: {:noreply, state}
 
+  defp process_name(%{id: id} = _offer_request),
+    do: {:via, Registry, {Homer.Search.Registry, "search_for_offer_request_#{id}"}}
+
   defp sort_offers([%Offer{} | _] = offers, %{sort_by: sort_by}) when is_atom(sort_by) do
     splited_str = sort_by |> Atom.to_string() |> String.split("_")
     {order, splited_field_name} = List.pop_at(splited_str, -1)
@@ -77,4 +88,7 @@ defmodule Homer.Search.Server do
     Process.send_after(self(), {:idle_timeout, idle_timeout_ref}, @idle_timeout_ms)
     {offer_request, providers, idle_timeout_ref}
   end
+
+  defp search_engine_provider_modules,
+    do: Application.get_env(:homer, :search_engine_provider_modules)
 end
